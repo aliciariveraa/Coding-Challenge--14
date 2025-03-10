@@ -95,3 +95,76 @@ function addSupportTicket(name, issue, priority) {
 // Add tickets
 addSupportTicket('Nathan', 'Page crashes', 'Low');
 addSupportTicket('William', 'Login issues', 'High');
+
+
+// Task 5 - Inline Editing for Support Tickets
+
+// Inline editing functionality
+function enableInlineEditing(ticket) {
+    ticket.addEventListener('dblclick', function() {
+        // Get current values
+        const customerName = ticket.querySelector('h3');
+        const issueDescription = ticket.querySelector('p:nth-child(2)');
+        const priorityLabel = ticket.querySelector('p:nth-child(3)');
+
+        // Create input fields
+        const nameInput = document.createElement('input');
+        nameInput.value = customerName.textContent;
+        const issueInput = document.createElement('input');
+        issueInput.value = issueDescription.textContent;
+        const priorityInput = document.createElement('input');
+        priorityInput.value = priorityLabel.textContent.replace('Priority: ', '');
+
+        // Replace ticket contents with inputs
+        ticket.innerHTML = '';
+        ticket.appendChild(nameInput);
+        ticket.appendChild(issueInput);
+        ticket.appendChild(priorityInput);
+
+        // Add a save button
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.addEventListener('click', function() {
+            customerName.textContent = nameInput.value;
+            issueDescription.textContent = issueInput.value;
+            priorityLabel.textContent = `Priority: ${priorityInput.value}`;
+            // Revert back to static text
+            enableInlineEditing(ticket);
+        });
+        ticket.appendChild(saveButton);
+    });
+}
+
+function addSupportTicket(name, issue, priority) {
+    const ticket = document.createElement('div');
+    ticket.classList.add('ticket');
+
+    const customerName = document.createElement('h3');
+    customerName.textContent = name;
+    ticket.appendChild(customerName);
+
+    const issueDescription = document.createElement('p');
+    issueDescription.textContent = issue;
+    ticket.appendChild(issueDescription);
+
+    const priorityLabel = document.createElement('p');
+    priorityLabel.textContent = `Priority: ${priority}`;
+    ticket.appendChild(priorityLabel);
+
+    const resolveButton = document.createElement('button');
+    resolveButton.textContent = 'Resolve';
+    resolveButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        ticket.remove();
+    });
+    ticket.appendChild(resolveButton);
+
+    const ticketContainer = document.getElementById('ticketContainer');
+    ticketContainer.appendChild(ticket);
+
+    // Enable inline editing for the newly added ticket
+    enableInlineEditing(ticket);
+}
+
+// Example of adding tickets
+addSupportTicket('Eve', 'Password reset', 'Medium');
