@@ -35,3 +35,22 @@ function createSupportTicket(customerName, issueDescription, priority) {
 // Example usage: creating a support ticket
 createSupportTicket('John Doe', 'Issue with login', 'High');
 createSupportTicket('Mary Smith', 'Cannot reset password', 'Medium');
+
+
+// Task 3 - Highlighting High Priority Tickets
+function highlightHighPriorityTickets() {
+    const highPriorityTickets = document.querySelectorAll('.ticket span');
+    
+    // Convert NodeList to an array using Array.from
+    const ticketsArray = Array.from(highPriorityTickets);
+
+    // Loop through the tickets and highlight them
+    ticketsArray.forEach(ticket => {
+        if (ticket.textContent.includes('High')) {
+            ticket.parentElement.style.backgroundColor = 'red';
+            ticket.parentElement.style.border = '2px solid black';
+    });
+}
+
+// Call the function to highlight high-priority tickets
+highlightHighPriorityTickets();
